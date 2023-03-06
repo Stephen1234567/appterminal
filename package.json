@@ -1,0 +1,29 @@
+{
+  "name": "appterminal",
+  "version": "1.0.1",
+  "description": "Help you to create commit",
+  "type": "module",
+  "bin": {
+    "appco": "./src/bin.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "co": "appco",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "appco": "file://.",
+    "standard": "17.0.0"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "dependencies": {
+    "@bdsqqq/try": "2.3.1",
+    "@clack/prompts": "0.6.1",
+    "picocolors": "1.0.0"
+  }
+}
