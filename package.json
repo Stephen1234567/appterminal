@@ -1,6 +1,6 @@
 {
   "name": "appterminal",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Help you to create commit",
   "type": "module",
   "bin": {

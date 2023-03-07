@@ -12,6 +12,7 @@ import { trytm } from '@bdsqqq/try'
 
 import { COMMIT_TYPES } from './commit-types.js'
 import { getChangedFiles, getStagedFiles, gitAdd, gitCommit } from './git.js'
+import { exitProgram } from './utils.js'
 
 intro(
   colors.inverse(` Asistente para la creacion de commits por ${colors.yellow(' @stephensampedro ')}`)
@@ -35,10 +36,7 @@ if (stagedFiles.length === 0 && changedFiles.length > 0) {
     }))
   })
 
-  if (isCancel(files)) {
-    outro(colors.yellow('No hay archivos para hacer el commit'))
-    process.exit(0)
-  }
+  if (isCancel(files)) exitProgram()
 
   await gitAdd({ files })
 }
@@ -50,6 +48,8 @@ const commitType = await select({
     label: `${value.emoji} ${key.padEnd(8, ' ')} - ${value.description}`
   }))
 })
+
+if (isCancel(commitType)) exitProgram()
 
 const commitMsg = await text({
   message: colors.cyan('Introduce el mensaje del commit'),
@@ -64,6 +64,8 @@ const commitMsg = await text({
   }
 })
 
+if (isCancel(commitMsg)) exitProgram()
+
 const { emoji, release } = COMMIT_TYPES[commitType]
 
 let breakingChange = false
@@ -74,6 +76,8 @@ if (release) {
     ${colors.yellow('Si la respuesta es si, deberias crear un commit con el tipo "BREAKING CHANGE" y al hacer  release se publicará una versión major')}
     `
   })
+
+  if (isCancel(breakingChange)) exitProgram()
 }
 
 let commit = `${emoji} ${commitType}: ${commitMsg}`
@@ -85,6 +89,8 @@ const shouldContinue = await confirm({
   ${colors.green(colors.bold(commit))}
   ${colors.cyan('¿Confirmas?')}`
 })
+
+if (isCancel(shouldContinue)) exitProgram()
 
 if (!shouldContinue) {
   outro(colors.yellow('No se ha creado el commit'))
